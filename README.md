@@ -45,6 +45,8 @@ src/
   styles.css       Estilos responsive y tokens Forest & Champagne
 docs/
   design-system.md Identidad, tokens y reglas visuales aprobadas
+  functional-specification.md Visión funcional y alcance del producto
+  backend-architecture.md Arquitectura backend y modelo relacional propuestos
 index.html         Documento HTML de entrada
 vite.config.ts     Configuración de Vite
 tsconfig*.json     Configuración TypeScript
@@ -52,7 +54,11 @@ tsconfig*.json     Configuración TypeScript
 
 ## Arquitectura futura
 
-La separación propuesta para el desarrollo funcional está descrita en el roadmap, pero todavía no existe en el código. La propuesta es comenzar con un monolito modular: frontend React/TypeScript, API Node.js/TypeScript, PostgreSQL y lógica deportiva independiente de la interfaz y el transporte. La elección final de proveedor de identidad, despliegue y estrategia multi-tenant queda pendiente.
+La visión funcional acordada está en [docs/functional-specification.md](docs/functional-specification.md). La arquitectura backend y el modelo relacional correspondientes están en [docs/backend-architecture.md](docs/backend-architecture.md). Ambos son documentos de diseño: el repositorio sigue sin backend, esquema Prisma ni migraciones. El diseño contempla un monolito modular con Express/TypeScript, PostgreSQL/Prisma y un motor de competición independiente de HTTP y persistencia.
+
+El MVP se centra en torneos independientes, categorías personalizables y el primer formato de zonas + eliminación directa. No incluye listas de espera, reemplazos automáticos, circuitos multi-organización ni formatos competitivos adicionales.
+
+La identidad visual aprobada y sus tokens se describen en [docs/design-system.md](docs/design-system.md).
 
 ## Verificación de esta versión
 
