@@ -29,6 +29,7 @@ model User {
   updatedAt       DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
 
   memberships OrganizationMembership[]
+  authSessions AuthSession[]
 
   @@map("users")
 }
@@ -61,4 +62,19 @@ model OrganizationMembership {
   @@unique([organizationId, id])
   @@index([userId])
   @@map("organization_memberships")
+}
+
+model AuthSession {
+  id         String    @id @default(uuid()) @db.Uuid
+  userId     String    @map("user_id") @db.Uuid
+  tokenHash  String    @unique @map("token_hash")
+  createdAt  DateTime  @default(now()) @map("created_at") @db.Timestamptz(3)
+  lastSeenAt DateTime  @map("last_seen_at") @db.Timestamptz(3)
+  expiresAt  DateTime  @map("expires_at") @db.Timestamptz(3)
+  revokedAt  DateTime? @map("revoked_at") @db.Timestamptz(3)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([userId, expiresAt])
+  @@map("auth_sessions")
 }

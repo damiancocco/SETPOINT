@@ -284,6 +284,13 @@ Orden middleware: request/correlation ID y límites → autenticación para ruta
 
 Las decisiones abiertas no bloquean la fundación técnica ni los módulos independientes de ellas. Implementar cada funcionalidad solo cuando sus reglas de negocio relevantes estén resueltas. Por ejemplo, autenticación, organizaciones, permisos y estructura básica de torneos pueden desarrollarse antes de definir desempates o reglamentos deportivos; el motor de competición y los validadores deportivos esperan esas decisiones. No generar todas las tablas de una vez: cada migración se justifica por un flujo vertical implementado.
 
+## Requisitos operativos de seguridad para etapas posteriores
+
+- **HTTPS en producción:** obligatorio para proteger las credenciales y los tokens Bearer durante el transporte. La API no termina TLS por sí sola; el punto de entrada público (proxy, gateway o plataforma de despliegue) debe imponer HTTPS.
+- **Rate limiting distribuido:** la implementación inicial usa almacenamiento local en memoria. Al desplegar varias instancias, sustituirlo por un almacén compartido y configurar explícitamente los proxies confiables para identificar clientes correctamente.
+- **Autorización tenant-scoped:** antes de añadir endpoints que lean o modifiquen recursos de una organización, validar en cada operación la membresía activa, el permiso/rol requerido y que el recurso pertenezca a esa organización. La autenticación por sí sola no concede acceso a datos del tenant.
+- **Limpieza de sesiones:** definir retención y ejecutar una política programada para purgar sesiones vencidas o revocadas sin interferir con auditoría o soporte.
+
 ## 8. Decisiones confirmadas y abiertas
 
 ### Confirmadas
